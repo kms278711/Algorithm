@@ -8,7 +8,6 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st =  null;
-		int answer[] = new int[7];
 		int dwarf[] = new int[9];
 		int sum = 0;
 		int idx = 0;
@@ -31,15 +30,9 @@ public class Main {
 			}
 			if(sum == 100) break;
 		}
-		for (int i = 0; i < dwarf.length; i++) {
-			if(dwarf[i] !=0 ) {
-				answer[idx] = dwarf[i];
-				idx++;
-			}
-		}
-		Arrays.sort(answer);
-		for (int i = 0; i < answer.length; i++) {
-			System.out.println(answer[i]);
+		Arrays.sort(dwarf);
+		for (int i = 2; i < dwarf.length; i++) {
+			System.out.println(dwarf[i]);
 		}
 	}
 }
