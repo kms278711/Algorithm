@@ -1,10 +1,10 @@
 # [level 0] 저주의 숫자 3 - 120871 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/120871?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/120871) 
 
 ### 성능 요약
 
-메모리: 76.9 MB, 시간: 0.02 ms
+메모리: 74.5 MB, 시간: 0.09 ms
 
 ### 구분
 
