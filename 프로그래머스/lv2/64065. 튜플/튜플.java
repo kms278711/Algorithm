@@ -2,9 +2,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 class Solution {
-	public boolean contain() {
-		return true;
-	}
     public int[] solution(String s) {
         int[] answer = {};
         s = s.substring(1,s.length()-1);
