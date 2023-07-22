@@ -2,13 +2,13 @@ import java.util.ArrayList;
 
 class Solution {
     public int solution(int cacheSize, String[] cities) {
-        int answer = 0;
+    	if(cities.length == 0) return 0;
+		if(cacheSize == 0) return cities.length*5;
+    	
+		int answer = 0;
         ArrayList<String> arr = new ArrayList<>();
-    	if(cities.length!=0) {
-        	answer = 5;
-            arr.add(cities[0].toLowerCase());
-        }
-    	if(cacheSize == 0) return cities.length*5;
+        answer = 5;
+        arr.add(cities[0].toLowerCase());
         boolean flag = false;
         for (int i = 1; i < cities.length; i++) {
         	for (int j = 0; j < arr.size(); j++) {
@@ -31,5 +31,5 @@ class Solution {
         	flag = false;
 		}
         return answer;
-    }
+    } 
 }
