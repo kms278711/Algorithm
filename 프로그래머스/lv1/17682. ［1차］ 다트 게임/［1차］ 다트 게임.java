@@ -1,14 +1,20 @@
 class Solution {
     public int solution(String dartResult) {
         int answer = 0;
+        //현재 인덱스
         int idx = 0;
+        //이전 값
         int prior = 0;
+        //현재 값
         int cur = 0;
+        //점수 
         String score = "";
         char[] c = dartResult.toCharArray();
         while(idx != dartResult.length()) {
+        	//점수 구하기
         	if(Character.isDigit(c[idx])) {
         		score += c[idx];
+    		//현재 점수 값 계산
         	} else if(c[idx]=='S') {
         		cur = Integer.parseInt(score);
         	} else if(c[idx]=='D') {
