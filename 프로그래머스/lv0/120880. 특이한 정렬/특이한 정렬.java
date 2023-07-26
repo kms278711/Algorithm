@@ -9,12 +9,15 @@ class Solution {
         	//탐색시작
         	for (int j = 0; j < answer.length; j++) {
         		if(check[j] != 1) {
+        			//거리계산
 					int tmp = Math.abs(n-numlist[j]);
 					if(min > tmp) {
+						//최소값 교체
 						min = tmp;
 						idx = j;
 						minVal = numlist[j];
 					} else if(min == tmp){
+						// 같을경우 더 큰 값이 앞으로 나오게
 						if(minVal < numlist[j]) {
 							minVal = numlist[j];
 							idx = j;
@@ -22,6 +25,7 @@ class Solution {
 					}
         		}
 			}
+        	//사용한 수는 체크
         	check[idx] = 1;
         	answer[i] = minVal;
 		}
