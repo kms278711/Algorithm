@@ -5,9 +5,12 @@ class Solution {
         int idx = 0;
         char[] c = numbers.toCharArray();
         while(idx<numbers.length()) {
+            //첫글자 비교
         	switch(c[idx]) {
         		case 'z' : 
+                    //영어글자 길이만큼 이동
         			idx += 4;
+                    //해당 영어 숫자로 더하기
         			tmp += 0;
         			break;
         		case 'o' :
@@ -24,6 +27,7 @@ class Solution {
         			}
         			break;
         		case 'f' :
+                    //두번째 글자 비교
         			if(c[idx+1] == 'o') {
         				idx += 4;
         				tmp += "4";
