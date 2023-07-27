@@ -13,6 +13,7 @@ class Solution {
        
         //검사
         for (int i = 1; i <= 6; i++) {
+        	//사용된 개수 일일이 비교
 			if(used[i] == 4) {
 				answer = 1111*i;
 				break;
