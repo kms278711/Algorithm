@@ -1,6 +1,7 @@
 class Solution {
     public int solution(int[] array) {
         int answer = 0;
+        //카운팅 배열
         int[] used = new int[1000];
         for (int i : array) {
 			used[i]+=1;
