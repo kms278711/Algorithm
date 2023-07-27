@@ -3,6 +3,7 @@ class Solution {
         String answer = "";
         int mode = 0;
         char[] arr = code.toCharArray();
+        //돌면서 mode 체크
         for (int idx = 0; idx < arr.length; idx++) {
         	if(mode==1) {
         		if(arr[idx] != '1') {
