@@ -1,58 +1,17 @@
 class Solution {
 	public int solution(String s) {
         String answer = "";
-        char[] arr = s.toCharArray();
-        for (int i=0; i<arr.length; i++) {
-        	if(Character.isDigit(arr[i])) {
-        		answer += arr[i];
-        	} else {
-        		switch(arr[i]) {
-                    case 'z' : 
-                        answer += 0;
-                        i += 3;
-                        break;
-        			case 'o' : 
-        				answer += 1;
-        				i += 2;
-        				break;
-        			case 'e' : 
-        				answer += 8;
-        				i += 4;
-        				break;
-        			case 'n' : 
-        				answer += 9;
-        				i += 3;
-        				break;
-        			case 't' : 
-        				if(arr[i+1] == 'h') {
-        					answer += 3;
-            				i += 4;
-        				} else if(arr[i+1] == 'w') {
-        					answer += 2;
-            				i += 2;
-        				}
-        				break;
-        			case 'f' : 
-        				if(arr[i+1] == 'o') {
-        					answer += 4;
-            				i += 3;
-        				} else if(arr[i+1] == 'i') {
-        					answer += 5;
-            				i += 3;
-        				}
-        				break;
-        			case 's' : 
-        				if(arr[i+1] == 'i') {
-        					answer += 6;
-            				i += 2;
-        				} else if(arr[i+1] == 'e') {
-        					answer += 7;
-            				i += 4;
-        				}
-        				break;
-        		}
-        	}
-		}
+        s = s.replace("zero", "0");
+        s = s.replace("one", "1");
+        s = s.replace("two", "2");
+        s = s.replace("three", "3");
+        s = s.replace("four", "4");
+        s = s.replace("five", "5");
+        s = s.replace("six", "6");
+        s = s.replace("seven", "7");
+        s = s.replace("eight", "8");
+        s = s.replace("nine", "9");
+        answer = s;
         return Integer.parseInt(answer);
     }
 }
