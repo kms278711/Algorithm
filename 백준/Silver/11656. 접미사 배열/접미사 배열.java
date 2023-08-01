@@ -19,7 +19,9 @@ public class Main {
 		Collections.sort(list);
 		//출력
 		for (String string : list) {
-			System.out.println(string);
+			sb.append(string);
+			sb.append("\n");
 		}
+        System.out.println(sb);
 	}
 }
