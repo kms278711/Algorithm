@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-class Solution {
+class Solution { 
     public int solution(String str1, String str2) {
     	int answer = 0;
         //소문자로 통일
@@ -30,7 +30,7 @@ class Solution {
         // 합집합 계산
         double B = strList1.size()+strList2.size();
         
-        //교집합 개수
+        //교집합 개수 
         double A = 0;
         for (String s: strList1) {
 			if(strList2.contains(s)) {
