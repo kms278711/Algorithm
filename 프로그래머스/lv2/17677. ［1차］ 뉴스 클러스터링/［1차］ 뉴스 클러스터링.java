@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 class Solution { 
     public int solution(String str1, String str2) {
@@ -8,8 +8,9 @@ class Solution {
         str2 = str2.toLowerCase();
         char[] arr1 = str1.toCharArray();
         char[] arr2 = str2.toCharArray();
-        ArrayList<String> strList1 = new ArrayList<>();
-        ArrayList<String> strList2 = new ArrayList<>();
+        //2개씩 넣을 list
+        List<String> strList1 = new ArrayList<>();
+        List<String> strList2 = new ArrayList<>();
         for (int i = 0; i < arr1.length-1; i++) {
             //문자아닌경우 continue
         	if(!Character.isAlphabetic(arr1[i]) || arr1[i+1] == ' ' || !Character.isAlphabetic(arr1[i+1])) continue;
@@ -24,7 +25,7 @@ class Solution {
         	strList2.add(tmp);
         }
 
-        
+        //뽑은게 둘다 없는 경우
         if(strList1.size()+strList2.size() == 0) return 65536;
         //소수 계산을 위해 double
         // 합집합 계산
