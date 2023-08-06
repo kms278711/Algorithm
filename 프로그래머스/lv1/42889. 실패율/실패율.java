@@ -20,9 +20,7 @@ class Solution {
         	}
         	
         	//남은 사람 계산
-        	if(cnt == 0) {
-        		tmp[i-1] = 0;
-        	} else {
+        	if(cnt != 0) {
         		tmp[i-1] = cnt/cur;
             	cur -= cnt;
         	}
