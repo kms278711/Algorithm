@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.*;
 class Solution {
 	public int[] solution(int N, int[] stages) {
         int[] answer = new int[N];
@@ -6,7 +6,7 @@ class Solution {
         //현재인원
         double cur = stages.length;
         
-        //떨어진 인원 체크 배열
+        //떨어진 인원 체크 배열(인덱스 찾을 때 사용)
         int[] check = new int[N+1];
         
         //실패율
@@ -30,7 +30,7 @@ class Solution {
         double[] tmp2 = Arrays.copyOf(tmp, N);
         Arrays.sort(tmp);
 
-        //실패율 몇번째 인덱스인지 찾기
+        //실패율 몇번째 인덱스인지 찾기(내림차순이니까 뒤에부터)
         for (int i = tmp.length-1; i >= 0; i--) {
 			for (int j = 1; j < tmp2.length+1; j++) {
 				if(tmp[i] == tmp2[j-1]) {
