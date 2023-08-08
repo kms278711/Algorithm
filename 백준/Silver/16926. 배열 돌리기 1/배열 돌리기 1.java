@@ -9,6 +9,7 @@ public class Main {
 		int M = Integer.parseInt(st.nextToken());
 		int R = Integer.parseInt(st.nextToken());
 		int[][] arr = new int[N][M];
+		int[][] tmp = new int[N][M];
 		
 		//채우기
 		for (int i = 0; i < N; i++) {
@@ -18,7 +19,6 @@ public class Main {
 			}
 		}
 		for (int i = 0; i < R; i++) {
-			int[][] tmp = new int[N][M];
 			//x범위 dx[0]~dx[1]
 			int[] dx = new int[2];
 			//y범위 dy[0]~dy[1]
