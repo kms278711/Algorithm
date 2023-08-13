@@ -4,7 +4,6 @@ import java.util.*;
 public class Main {
 	static int N,S, answer = 0, sum = 0;
 	static int[] arr;
-	static List<Integer> tmp = new ArrayList<Integer>();
 	//DFS
 	public static void DFS(int cnt) {
 		//부분수열로 합했을 때 현재 합이 제시된 것과 같다면 카운팅
@@ -16,11 +15,9 @@ public class Main {
 		} else {
 			//해당 배열의 수를 사용하는 경우
 			sum += arr[cnt];
-			tmp.add(arr[cnt]);
 			DFS(cnt+1);
 			//해당 배열의 수를 사용하지 않는 경우
 			sum -= arr[cnt];
-			tmp.remove((Object) arr[cnt]);
 			DFS(cnt+1);
 		}
 	}
