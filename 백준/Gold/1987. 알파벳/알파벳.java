@@ -24,12 +24,15 @@ public class Main {
 			flag = true;
 			for (int i = 0; i < 4; i++) {
 				if(x+dx[i] >= 0 && x+dx[i] < R && y+dy[i] >= 0 && y+dy[i] < C && !tmp.contains(board[x+dx[i]][y+dy[i]])) {
+					//갈수있는 곳이 있다면 계속 탐색
 					flag = false;
 					move(x+dx[i], y+dy[i], tmp + board[x+dx[i]][y+dy[i]]);
 				}
 			}
-			//flag true면 끝남
-			move(x, y, tmp);
+			if(flag) {				
+				//flag true면 끝남
+				move(x, y, tmp);
+			}
 		}
 	}
 	public static void main(String[] args) throws IOException {
