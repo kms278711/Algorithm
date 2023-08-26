@@ -13,7 +13,7 @@ class Point{
 }
 
 public class Solution {
-	//가로세로길이, 최대 멕시노스 개수, 해당 멕시노스 개수의 전선길이
+	//가로세로길이, 최대 멕시노스 개수, 최대개수일때  전선길이, 탐색해야할 총 개수
 	private static int N, maxCnt, maxSize, total;
 	private static int[][] map;
 	//상우하좌
@@ -26,6 +26,7 @@ public class Solution {
 	 * @param size 연결선수
 	 */
 	private static void DFS(int[][] cur, int checkCnt, int cnt, int sX) {
+		//총개수에서 현재탐색개수 뺴고 연결된 개수가 지금까지 계산된 최대개수보다 작으면 탐색 패스
 		if(total-checkCnt+cnt < maxCnt) return;
 		//더이상 코어가 없다면
 		if(checkCnt == total) {
@@ -106,6 +107,7 @@ public class Solution {
 								}	
 							}
 						}
+						//탐색 안했다고 표시
 						cur[i][j] = 1;
 					}
 				}
@@ -130,7 +132,7 @@ public class Solution {
 			map = new int[N][N];
 			maxCnt = 0;
 			total = 0;
-			int cnt = 0;
+			
 			maxSize=Integer.MAX_VALUE;
 			for (int j = 0; j < N; j++) {
 				StringTokenizer st = new StringTokenizer(br.readLine());
@@ -138,7 +140,6 @@ public class Solution {
 					map[j][k] = Integer.parseInt(st.nextToken());
 					//외곽에 있는것 연결되어 있기떄문에 탐색영역 제외하기
 					if(map[j][k] == 1 && (j==0 || k==0 || j==N-1 || k==N-1)) {
-						cnt++;
 						map[j][k] = 2;
 					}
 					if(map[j][k] == 1) total++;
