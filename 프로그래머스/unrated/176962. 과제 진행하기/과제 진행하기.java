@@ -82,6 +82,7 @@ class Solution {
         	
             //스택이 비었고 남은 과제가 없다면 
         	if(stack.isEmpty() && subjectList.size() == 0) {
+                //현재 과제를 정답에 넣고 while문 빠져나가기
                 answerTmp.add(cur.name);
         		break;
         	}
