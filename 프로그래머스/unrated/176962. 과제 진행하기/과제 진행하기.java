@@ -80,9 +80,9 @@ class Solution {
         		}
         	}
         	
+            //스택이 비었고 남은 과제가 없다면 
         	if(stack.isEmpty() && subjectList.size() == 0) {
-        		if(cur!= null)
-        			answerTmp.add(cur.name);
+                answerTmp.add(cur.name);
         		break;
         	}
 		}
