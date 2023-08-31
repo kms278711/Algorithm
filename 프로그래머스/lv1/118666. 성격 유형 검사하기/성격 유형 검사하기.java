@@ -6,6 +6,7 @@ class Solution {
         String answer = "";
         Map<Character, Integer> map = new LinkedHashMap<>();
         
+        //카운팅하기 위한 맵 초기화
         map.put('R', 0);
         map.put('T', 0);
         map.put('C', 0);
@@ -16,8 +17,10 @@ class Solution {
         map.put('N', 0);
         
         for (int i = 0; i < survey.length; i++) {
+        	//설문응답결고를 char배열로 쪼개고
 			char[] c = survey[i].toCharArray();
 			switch(choices[i]) {
+				//답변결과에 따라 카운팅 c[0]는 문제기준 앞유형, c[1]는 문제기준 뒤유형
 				case 1:
 					map.put(c[0], map.get(c[0]) + 3);
 					break;
@@ -39,7 +42,7 @@ class Solution {
 			}
 		}
         
-
+        //카운팅 개수 비교해서 성격 유형 리턴
 		if(map.get('R')>=map.get('T')) answer += "R";
 		else answer += "T";
 		if(map.get('C')>=map.get('F')) answer += "C";
