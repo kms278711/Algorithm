@@ -1,214 +1,145 @@
 import java.util.*;
 import java.io.*;
 
-//영역 클래스(BC넘버, 해당BC파워)
-class Area{
-	public int areaNum;
-	public int P;
-	public Area(int areaNum, int P){
-		this.areaNum = areaNum;
-		this.P = P;
-	}
-}
-
 public class Solution {
-	//10*10짜리 Area리스트의 2차원 배열
-	private static List<Area>[][] arr;
-	//BC넘버
-	private static int area;
-	//BC설치
-	private static void setBC(int y, int x, int C, int P) {
-		int cnt = 0;
-		//가운데 기준 위에C칸
-		for (int i = C; i >= 0; i--) {
-			for (int j = y-cnt; j <= y+cnt; j++) {
-				if(x-i>=0 && x-i<10 && j>=0 && j<10) {
-					if(arr[x-i][j] == null) {
-						List<Area> tmp = new ArrayList<>();
-						tmp.add(new Area(area,P));
-						arr[x-i][j] = tmp;
-					} else {
-						arr[x-i][j].add(new Area(area, P));
-					}
-				}
-			}
-			cnt++;
-		}
-		cnt -= 2;
-		//가운데 기준 아래 C-1칸
-		for (int i = 1; i <= C; i++) {
-			for (int j = y-cnt; j <= y+cnt; j++) {
-				if(x+i>=0 && x+i<10 && j>=0 && j<10) {
-					if(arr[x+i][j] == null) {
-						List<Area> tmp = new ArrayList<>();
-						tmp.add(new Area(area,P));
-						arr[x+i][j] = tmp;
-					} else {
-						arr[x+i][j].add(new Area(area, P));
-					}
-				}
-			}
-			cnt--;
+	//비콘 클래스
+	//좌표, 전력, 연결범위
+	static class BC {
+		int[] point;
+		int power, range;
+		public BC(int[] point, int power, int range) {
+			super();
+			this.point = point;
+			this.power = power;
+			this.range = range;
 		}
 	}
-    public static void main(String[] args) throws NumberFormatException, IOException{
+	
+	//움직인 횟수, 비콘 개수
+	private static int M,R;
+	//A움직임, B움직임
+	private static int[] aMove, bMove;
+	// 지도 기준 부동,상,우,하,좌
+	private static int[] dx = {0, 0, 1, 0, -1};
+	private static int[] dy = {0, -1, 0, 1, 0};
+	//현재 a좌표, b좌표
+	private static int[] aPos;
+	private static int[] bPos;
+	//비콘 정보 배열
+	private static BC[] BCList;
+	
+	//1초 움직이기. 해당 idx방향으로 이동
+	private static void move(int idx) {
+		aPos[0] += dx[aMove[idx]];
+		aPos[1] += dy[aMove[idx]];
+		bPos[0] += dx[bMove[idx]];
+		bPos[1] += dy[bMove[idx]];
+	}
+	
+	//pos(위치)가 BCIdx에 해당하는 비콘에 연결되어 있는지 확인
+	//연결되어있으면 해당 비콘 전력 리턴
+	private static int check(int[] pos, int BCIdx) {
+		BC cur = BCList[BCIdx];
+		int dis = Math.abs(pos[0]-cur.point[0]) + Math.abs(pos[1]-cur.point[1]);
+		if(dis <= cur.range) return cur.power;
+		return 0;
+	}
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		//입력 및 초기화
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		//테스트케이스개수
 		int T = Integer.parseInt(br.readLine());
-		for (int i = 1; i <= T; i++) {
-			int answer = 0;
-			arr = new List[10][10];
-			//기본적인 출력폼 StringBuilder에 추가
-			sb.append("#").append(i).append(" ");
+		for(int i=1; i <= T; i++) {
+			sb.append("#" + i + " ");
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			//입력받기
-			int M = Integer.parseInt(st.nextToken());
-			int A = Integer.parseInt(st.nextToken());
-			int[] aMove = new int[M];
-			int[] bMove = new int[M];
-			
+			M = Integer.parseInt(st.nextToken());
+			R = Integer.parseInt(st.nextToken());
+			aMove = new int[M];
+			bMove = new int[M];
+			aPos = new int[2];
+			bPos = new int[] {9,9};
+			BCList = new BC[R];
+			int answer = 0;
 			st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < M; j++) {
-				aMove[j] = Integer.parseInt(st.nextToken());
+				aMove[j] = Integer.parseInt(st.nextToken()); 
 			}
 			st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < M; j++) {
-				bMove[j] = Integer.parseInt(st.nextToken());
+				bMove[j] = Integer.parseInt(st.nextToken()); 
 			}
 			
-			//BC설치
-			for (int j = 0; j < A; j++) {
+			for (int j = 0; j < R; j++) {
 				st = new StringTokenizer(br.readLine());
-				area++;
-				setBC(Integer.parseInt(st.nextToken())-1, Integer.parseInt(st.nextToken())-1, Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+				int x = Integer.parseInt(st.nextToken())-1;
+				int y = Integer.parseInt(st.nextToken())-1;
+				int range = Integer.parseInt(st.nextToken());
+				int power = Integer.parseInt(st.nextToken());
+				BCList[j] = new BC(new int[] {x,y}, power, range);
 			}
 			
-			//두사람의 초기위치
-			int aCurX = 0;
-			int aCurY = 0;
-			int bCurX = 9;
-			int bCurY = 9;
-			
-			//처음자리 체크
-			List<Area> aList = arr[aCurX][aCurY];
-			List<Area> bList = arr[bCurX][bCurY];
-			if(aList==null && bList!=null) {
-				//구역크기별로 정렬
-				Collections.sort(bList, new Comparator<Area>() {
-					@Override
-					public int compare(Area o1, Area o2) {
-						return o1.P-o2.P;
+			//해당 시간 최대 전력
+			int max = 0;
+			//A의 비콘
+			for (int a = 0; a < R; a++) {
+				//B의 비콘
+				for (int b = 0; b < R; b++) {
+					//해당 경우에 나올 수 있는 전력 최대값
+					int sum = 0;
+					//A가 a번째 비콘에서 얻을 수 있는 전력
+					int aSum = check(aPos, a);
+					//B가 b번째 비콘에서 얻을 수 있는 전력
+					int bSum = check(bPos, b);
+					//비콘이 다르다면 그냥 더하기
+					if(a!=b) {
+						sum = aSum+bSum;
+					//비콘이 같은 경우 최대값을 구해서 더하기
+					//같은 경우 한쪽 비콘의 파워값을 따라가게 되어있음.
+					} else {
+						sum = Math.max(aSum, bSum);
 					}
-				});
-				//파워추가
-				answer += bList.get(bList.size()-1).P;
-			} else if(aList!=null && bList==null) {
-				Collections.sort(aList, new Comparator<Area>() {
-					@Override
-					public int compare(Area o1, Area o2) {
-						return o1.P-o2.P;
-					}
-				});
-				answer += aList.get(aList.size()-1).P;
-			} else if(aList!=null && bList!=null){
-				Collections.sort(aList, new Comparator<Area>() {
-					@Override
-					public int compare(Area o1, Area o2) {
-						return o1.P-o2.P;
-					}
-				});
-				Collections.sort(bList, new Comparator<Area>() {
-					@Override
-					public int compare(Area o1, Area o2) {
-						return o1.P-o2.P;
-					}
-				});
-				
-				//최대 경우의수 구할변수
-				int max = Integer.MIN_VALUE;
-				for (int k = 0; k < aList.size(); k++) {
-					for (int h = 0; h < bList.size(); h++) {
-						if(aList.get(k).areaNum == bList.get(h).areaNum) {
-							max = Math.max(max, aList.get(k).P);
-						} else {
-							max = Math.max(max, aList.get(k).P+bList.get(h).P);
-						}
-					}
+					//최대값 갱신
+					max = Math.max(sum, max);
 				}
-				answer += max;
 			}
+			//정답에 해당 시간 최대 전력 더해주기
+			answer += max;
 			
+			//a
 			for (int j = 0; j < M; j++) {
+				//1초 이동
+				move(j);
 				
-				//다음 위치 이동
-				if(aMove[j] == 1) {
-					aCurX -= 1;
-				} else if(aMove[j] == 2) {
-					aCurY += 1;
-				} else if(aMove[j] == 3) {
-					aCurX += 1;
-				} else if(aMove[j] == 4) {
-					aCurY -= 1;
-				}
-				
-				if(bMove[j] == 1) {
-					bCurX -=1;
-				} else if(bMove[j] == 2) {
-					bCurY +=1;
-				} else if(bMove[j] == 3) {
-					bCurX +=1;
-				} else if(bMove[j] == 4) {
-					bCurY -=1;
-				}
-				
-				aList = arr[aCurX][aCurY];
-				bList = arr[bCurX][bCurY];
-				if(aList==null && bList!=null) {
-					Collections.sort(bList, new Comparator<Area>() {
-						@Override
-						public int compare(Area o1, Area o2) {
-							return o1.P-o2.P;
+				//해당 시간 최대 전력 초기화
+				max = 0;
+				//A의 비콘
+				for (int a = 0; a < R; a++) {
+					//B의 비콘
+					for (int b = 0; b < R; b++) {
+						//해당 경우에 나올 수 있는 전력 최대값
+						int sum = 0;
+						//A가 a번째 비콘에서 얻을 수 있는 전력
+						int aSum = check(aPos, a);
+						//B가 b번째 비콘에서 얻을 수 있는 전력
+						int bSum = check(bPos, b);
+						//비콘이 다르다면 그냥 더하기
+						if(a!=b) {
+							sum = aSum+bSum;
+						//비콘이 같은 경우 최대값을 구해서 더하기
+						//같은 경우 한쪽 비콘의 파워값을 따라가게 되어있음.
+						} else {
+							sum = Math.max(aSum, bSum);
 						}
-					});
-					answer += bList.get(bList.size()-1).P;
-				} else if(aList!=null && bList==null) {
-					Collections.sort(aList, new Comparator<Area>() {
-						@Override
-						public int compare(Area o1, Area o2) {
-							return o1.P-o2.P;
-						}
-					});
-					answer += aList.get(aList.size()-1).P;
-				} else if(aList!=null && bList!=null){
-					Collections.sort(aList, new Comparator<Area>() {
-						@Override
-						public int compare(Area o1, Area o2) {
-							return o1.P-o2.P;
-						}
-					});
-					Collections.sort(bList, new Comparator<Area>() {
-						@Override
-						public int compare(Area o1, Area o2) {
-							return o1.P-o2.P;
-						}
-					});
-					
-					int max = Integer.MIN_VALUE;
-					for (int k = 0; k < aList.size(); k++) {
-						for (int h = 0; h < bList.size(); h++) {
-							if(aList.get(k).areaNum == bList.get(h).areaNum) {
-								max = Math.max(max, aList.get(k).P);
-							} else {
-								max = Math.max(max, aList.get(k).P+bList.get(h).P);
-							}
-						}
+						//최대값 갱신
+						max = Math.max(sum, max);
 					}
-					answer += max;
 				}
+				//정답에 해당 시간 최대 전력 더해주기
+				answer += max;
 			}
 			sb.append(answer).append("\n");
 		}
 		System.out.println(sb);
-    }
+	}
 }
