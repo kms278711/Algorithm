@@ -2,83 +2,76 @@ import java.util.*;
 import java.io.*;
 
 public class Solution {
-	//맵 길이, 정답, 시작 위치
-	private static int N, answer, startX, startY;
+	//맵 길이, 시작좌표, 정답(최대 디저트 종류 개수)
+	private static int N, startX, startY, answer;
 	//맵
-	private static int[][] map;
-	//디저트 방문 배열(위치가 아님)
+	private static int map[][];
+	//디저트 종류별 방문 여부
 	private static boolean[] visited;
 	//대각선 4방탐색
 	private static int[] dx = {1, 1, -1, -1};
 	private static int[] dy = {1, -1, -1, 1};
-	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		//입력 및 초기화
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());
+		int T = Integer.parseInt(br.readLine().trim());
 		for(int i=1; i <= T; i++) {
 			sb.append("#" + i + " ");
-			N = Integer.parseInt(br.readLine());
-			answer = -1;
+			N = Integer.parseInt(br.readLine().trim());			
 			map = new int[N][N];
-			for (int j = 0; j < N; j++) {
-				StringTokenizer st = new StringTokenizer(br.readLine());
-				for (int k = 0; k < N; k++) {
-					map[j][k] = Integer.parseInt(st.nextToken());
+			answer = -1;
+			for (int x = 0; x < N; x++) {
+				StringTokenizer st = new StringTokenizer(br.readLine().trim());
+				for (int y = 0; y < N; y++) {
+					map[x][y] = Integer.parseInt(st.nextToken());
 				}
 			}
 			
-			//시작 좌표를 설정하고 dfs 시작.
-			for (int j = 0; j < N; j++) {
-				for (int k = 0; k < N; k++) {
-					startX = j;
-					startY = k;
-					//방문배열 초기화
+			//모든 지점에서 탐색 시작
+			for (int x = 0; x < N; x++) {
+				for (int y = 0; y < N; y++) {
+					//방문배열 초기화(최대 종류 100개)
 					visited = new boolean[101];
-					find(0, 0, j, k);
+					//시작좌표 세팅
+					startX = x;
+					startY = y;
+					find(x,y,0,0);
 				}
 			}
 			sb.append(answer).append("\n");
 		}
 		System.out.println(sb);
 	}
-	
-	//디저트 종류 찾기(길이, 방향, 현재 좌표)
-	//방향을 넘기는 이유 : 이전 탐색 방향으로 가지 않고 현재 탐색 방향부터 탐색을 위해,
-	//					사각형 만드는 조건(그려보면 암)
-	private static void find(int len, int dir, int x, int y) {
-		//기저조건 : 시작좌표로 돌아오면
-		if(x == startX && y == startY) {
-			//사각형의 최소길이인 3이상부터 정답 갱신
-			if(len > 2) {
-				//정답 갱신
-				answer = Math.max(len, answer);
-				return;
-			}
+
+	//디저트 사각형 찾기
+	//4방탐색을 dir부터 시작하게 하여 사각형을 만듬
+	private static void find(int x, int y, int len, int dir) {
+		//최대 3개이상 들르고 시작 지점으로 돌아오면 정답 갱신
+		if(x == startX && y == startY && len > 3) {
+			answer = Math.max(answer, len);
+			return;
 		}
 		
-		//4방탐색
-		for (int i = dir; i < 4; i++) {
-			int nx = x + dx[i];
-			int ny = y + dy[i];
-			
-			//내부인지 체크
-			if(!isIn(nx,ny)) continue;
-			
-			//방문했으면 다음 방향 탐색
+		//탐색을 dir방향부터 시작하게 하여 사각형을 만듬
+		for (int d = dir; d < 4; d++) {
+			int nx = x + dx[d];
+			int ny = y + dy[d];
+			//내부가 아니면 다음 방향
+			if(!isIn(nx, ny)) continue;
+			//이미 있는 디저트 종류면 다음 방향
 			if(visited[map[nx][ny]]) continue;
-			
-			//방문했다고 표시하고 다음 분기 진행
+			//방문 표시
 			visited[map[nx][ny]] = true;
-			find(len+1, i, nx, ny);
-			//방문표시 풀기
+			//다음 탐색
+			find(nx, ny, len+1,d);
+			//원상복귀
 			visited[map[nx][ny]] = false;
-		}
+		}		
 	}
 
-	//내부인지 체크 로직
-	private static boolean isIn(int nx, int ny) {
-		return nx >= 0 && ny >= 0 && nx < N && ny < N;
+	//내부인지 확인
+	private static boolean isIn(int x, int y) {
+		return x>=0 && y>=0 && x<N && y<N;
 	}
 }
